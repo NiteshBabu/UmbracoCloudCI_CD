@@ -34,26 +34,26 @@
             }
             else
             {
-                <span>Umbraco <br /> Training</span>
+                    <span>Umbraco <br /> Training</span>
             }
         </h1>
-
+        @* @await Component.InvokeAsync("GiphyWidget") *@
     </div>
     @if (Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos") != null && Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").Any())
     {
         var imgLogo1 = Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").FirstOrDefault();
         var imgLogo2 = Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").Last();
-        <div class="rectangle-1"><img src="@imgLogo1.Url()" /></div>
-        <div class="rectangle-2"><img src="@imgLogo1.Url()" /></div>
-        <div class="rectangle-transparent-1"><img src="@imgLogo1.Url()" /></div>
-        <div class="rectangle-transparent-2"><img src="@imgLogo1.Url()" /></div>
-        <div class="circle-1"><img src="@imgLogo2.Url()" /></div>
-        <div class="circle-2"><img src="@imgLogo2.Url()" /></div>
-        <div class="circle-3"><img src="@imgLogo2.Url()" /></div>
-        <div class="triangle triangle-1"><img src="@imgLogo1.Url()" /></div>
-        <div class="triangle triangle-2"><img src="@imgLogo1.Url()" /></div>
-        <div class="triangle triangle-3"><img src="@imgLogo1.Url()" /></div>
-        <div class="triangle triangle-4"><img src="@imgLogo1.Url()" /></div>
+            <div class="rectangle-1"><img src="@imgLogo1.Url()" /></div>
+            <div class="rectangle-2"><img src="@imgLogo1.Url()" /></div>
+            <div class="rectangle-transparent-1"><img src="@imgLogo1.Url()" /></div>
+            <div class="rectangle-transparent-2"><img src="@imgLogo1.Url()" /></div>
+            <div class="circle-1"><img src="@imgLogo2.Url()" /></div>
+            <div class="circle-2"><img src="@imgLogo2.Url()" /></div>
+            <div class="circle-3"><img src="@imgLogo2.Url()" /></div>
+            <div class="triangle triangle-1"><img src="@imgLogo1.Url()" /></div>
+            <div class="triangle triangle-2"><img src="@imgLogo1.Url()" /></div>
+            <div class="triangle triangle-3"><img src="@imgLogo1.Url()" /></div>
+            <div class="triangle triangle-4"><img src="@imgLogo1.Url()" /></div>
     }
 </div>
 <!-- Features Section-->
@@ -191,90 +191,103 @@
                 <div class="col-md-12">
                     <div class="row align-items-center text-white">
                         <div class="col-md-4 offset-md-2 col-sm-6">
-                            @if(Model.YourName != ""){
-                            <h4 class="mb-4">@Model.YourName proudly presents: this site!</h4>
-                            }else{
-                            <h4 class="mb-4">@umbracoHelper.GetDictionaryValue("YourName")</h4>
+@if (Model.YourName != "")
+{
+                                <h4 class="mb-4">@Model.YourName proudly presents: this site!</h4>
+}
+else
+{
+                                <h4 class="mb-4">@umbracoHelper.GetDictionaryValue("YourName")</h4>
+}
+@if (Model.YourDescription != "")
+{
+                                <p>@Model.YourDescription</p>
+}
+else
+{
+                                <p>@umbracoHelper.GetDictionaryValue("AboutYourself")</p>
+}
+                        </div>
+@if (Model.YourBeautifulFace != null)
+{
+                            <div class="col-md-4 offset-md-right-2 col-sm-6">
+                                <img class="my-5 img-circle" src="@Url.GetCropUrl(Model.YourBeautifulFace, "Portrait")" alt="">
+                            </div>
+}
+else
+{
+                            <div class="col-md-4 offset-md-right-2 col-sm-6">
+                                <img class="my-5 img-circle" src="https://via.placeholder.com/350x350" alt="">
+                            </div>
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@if (typedMultiNodeTreePicker != null)
+{
+    <!-- Portfolio Section -->
+    <section id="blog" class="bg-grey">
+        <div class="container">
+            <div class="section-content">
+                <div class="title-wrap mb-5">
+                    <h2 class="section-title">@umbracoHelper.GetDictionaryValue("OurProducts")</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 blog-holder">
+                        <div class="row">
+                            @(await Html.PartialAsync("ProductListing", Model))
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<!-- End of Portfolio Section -->
+@if (Model.Value("testimonials") != null)
+{
+    <!-- Testimonial Section-->
+    <section id="testimonial" class="section-padding bg-fixed bg-white overlay">
+        <div class="container">
+            <div class="section-content">
+                <div class="heading-section text-center">
+                    <h2> @umbracoHelper.GetDictionaryValue("Testimonials") </h2>
+                </div>
+                <div class="row">
+                    <div class="testi-content testi-carousel owl-carousel">
+                        @{
+                            foreach (var testimonial in Model.Value<IEnumerable<BlockListItem>>("testimonials"))
+                            {
+                                @*Replace with blocklist*@
+                                var image = testimonial.Content.Value<IPublishedContent>("testimonialAuthorsPicture");
+                                    <div class="testi-item text-center">
+                                        <i class="testi-icon fa fa-3x fa-quote-left"></i>
+                                        <h4 class="testi-text">@testimonial.Content.Value("testimonialText")</h4>
+                                        <div class="testi-meta-inner d-flex justify-content-center align-items-center">
+                                            <div class="testi-img mr-2">
+                                            @if (image != null)
+                                            {
+                                                    <img src="@image.Url()" alt="" />
+                                            }
+                                            </div>
+                                            <div class="testi-details">
+                                                <p class="testi-author mb-0 font-weight-bolder">@testimonial.Content.Value("testimonialAuthor")</p>
+                                                <p class="testi-desc mb-0">@testimonial.Content.Value("testimonialAuthorsTitle")</p>
+                                            </div>
+                                        </div>
+                                    </div>
                             }
-                            @if(Model.YourDescription != ""){
-                            <p>@Model.YourDescription</p>
-                            }else{
-                            <p>@umbracoHelper.GetDictionaryValue("AboutYourself")</p>
-                            }
-                        </div>
-                        @if(Model.YourBeautifulFace != null){
-                        <div class="col-md-4 offset-md-right-2 col-sm-6">
-                            <img class="my-5 img-circle" src="@Url.GetCropUrl(Model.YourBeautifulFace, "Portrait")" alt="">
-                        </div>
-                        }else{
-                        <div class="col-md-4 offset-md-right-2 col-sm-6">
-                            <img class="my-5 img-circle" src="https://via.placeholder.com/350x350" alt="">
-                        </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-@if(typedMultiNodeTreePicker!=null){
-<!-- Portfolio Section -->
-<section id="blog" class="bg-grey">
-    <div class="container">
-        <div class="section-content">
-            <div class="title-wrap mb-5">
-                <h2 class="section-title">@umbracoHelper.GetDictionaryValue("OurProducts")</h2>
-            </div>
-            <div class="row">
-                <div class="col-md-12 blog-holder">
-                    <div class="row">
-                        @(await Html.PartialAsync("ProductListing", Model))
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-    }
-<!-- End of Portfolio Section -->
-    @if(Model.Value("testimonials") !=null){
-<!-- Testimonial Section-->
-<section id="testimonial" class="section-padding bg-fixed bg-white overlay">
-    <div class="container">
-        <div class="section-content">
-            <div class="heading-section text-center">
-                <h2> @umbracoHelper.GetDictionaryValue("Testimonials") </h2>
-            </div>
-            <div class="row">
-                <div class="testi-content testi-carousel owl-carousel">
-                    @{
-                    foreach(var testimonial in Model.Value<IEnumerable<BlockListItem>>("testimonials")){
-                        @*Replace with blocklist*@
-                    var image = testimonial.Content.Value<IPublishedContent>("testimonialAuthorsPicture");
-                        <div class="testi-item text-center">
-                            <i class="testi-icon fa fa-3x fa-quote-left"></i>
-                            <h4 class="testi-text">@testimonial.Content.Value("testimonialText")</h4>
-                            <div class="testi-meta-inner d-flex justify-content-center align-items-center">
-                                <div class="testi-img mr-2">
-                                    @if(image!= null){
-                                    <img src="@image.Url()" alt="" />
-                                }
-                                </div>
-                                <div class="testi-details">
-                                    <p class="testi-author mb-0 font-weight-bolder">@testimonial.Content.Value("testimonialAuthor")</p>
-                                    <p class="testi-desc mb-0">@testimonial.Content.Value("testimonialAuthorsTitle")</p>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-    }
+}
 
 <section id="client" @Html.Raw(backgroundStyle) class="overlay bg-fixed">
     <div class="container">
@@ -287,25 +300,30 @@
                 </div>
                 <div class="col-md-12 client-holder">
                     <div class="client-slider owl-carousel">
-                        @if(Model.Value("companyLogos") !=null && Model.Value<IEnumerable<IPublishedContent>>("companyLogos").Any()){
-                        foreach(var logo in Model.Value<IEnumerable<IPublishedContent>>("companyLogos")){
-                        <div class="client-item">
-                            <img class="img-responsive" src="@logo.Url()" alt=" ">
-                        </div>
-                        }
-                        }
-                        else{
-                        <div class="client-item">
-                            <!-- Alternatively you could do Umbraco.Media(Guid.Parse("b8dc67f9b88e4d79acf2246ffcc77d09")) to get a media item but the picker approach is safer -->
-                            @if(Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos") !=null && Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").Any()){
-                            var imgLogo = Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").FirstOrDefault();
-                            <img class="img-responsive" src="@imgLogo.Url()" alt=" ">
-                            }
-                            else{
-                            <img class="img-responsive" src="https://placehold.co/200x200" alt=" ">
-                            }
-                        </div>
-                       }
+@if (Model.Value("companyLogos") != null && Model.Value<IEnumerable<IPublishedContent>>("companyLogos").Any())
+{
+    foreach (var logo in Model.Value<IEnumerable<IPublishedContent>>("companyLogos"))
+    {
+                                <div class="client-item">
+                                    <img class="img-responsive" src="@logo.Url()" alt=" ">
+                                </div>
+    }
+}
+else
+{
+                            <div class="client-item">
+                                <!-- Alternatively you could do Umbraco.Media(Guid.Parse("b8dc67f9b88e4d79acf2246ffcc77d09")) to get a media item but the picker approach is safer -->
+        @if (Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos") != null && Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").Any())
+        {
+            var imgLogo = Model.Value<IEnumerable<IPublishedContent>>("umbracoLogos").FirstOrDefault();
+                                    <img class="img-responsive" src="@imgLogo.Url()" alt=" ">
+        }
+        else
+        {
+                                    <img class="img-responsive" src="https://placehold.co/200x200" alt=" ">
+        }
+                            </div>
+}
                     </div>
                 </div>
             </div>
