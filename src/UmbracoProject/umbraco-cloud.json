@@ -1,11 +1,18 @@
 {
   "Deploy": {
     "Project": {
-      "Name": "niteshs romantic sheep",
+      "Name": "Niteshs Romantic Sheep",
       "Alias": "niteshs-romantic-sheep",
       "Id": "b4122304-551a-49b9-91cb-be7d9cad0ad1",
+      "Url": "https://www.s1.umbraco.io/project/niteshs-romantic-sheep",
       "TrialExpireDate": "2025-12-17T05:37:08.0000000",
       "Workspaces": [
+        {
+          "Id": "57ff459d-5985-459c-b1b0-b03c9af150fa",
+          "Name": "Demo",
+          "Type": "demo",
+          "Url": "https://demo-niteshs-romantic-sheep.euwest01.umbraco.io"
+        },
         {
           "Id": "04fb655c-537d-4856-b07f-157a344cd7b4",
           "Name": "Live",
