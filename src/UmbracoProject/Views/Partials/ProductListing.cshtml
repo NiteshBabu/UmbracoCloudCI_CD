@@ -1,13 +1,13 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
     var productsPage = Model.Root().FirstChild<Products>();
-    string defaultCurrency = productsPage.DefaultCurrency;
-    var featuredItem = productsPage.FeaturedProduct;
+    string defaultCurrency = productsPage?.DefaultCurrency;
+    var featuredItem = productsPage?.FeaturedProduct;
     string featured = "";
     var products = Model.Value<IEnumerable<IPublishedContent>>("highlightedProducts");
     if (products == null)
     {
-        products = productsPage.Children().ToList();
+        products = productsPage?.Children().ToList();
     }
 }
 @foreach (var item in products)
