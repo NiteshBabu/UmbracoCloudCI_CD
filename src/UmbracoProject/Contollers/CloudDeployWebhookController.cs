@@ -37,6 +37,14 @@ namespace UmbracoProject.Controllers
       return HandleWebhook(payload, token);
     }
 
+    [HttpPost("cms-blog-publish")]
+    public IActionResult ReceiveFromCms(
+      [FromBody] JsonElement payload,
+      [FromHeader(Name = "X-Webhook-Token")] string? token = null)
+    {
+      return HandleWebhook(payload, token);
+    }
+
     private IActionResult HandleWebhook(JsonElement payload, string? token)
     {
       var section = _config.GetSection("DeploymentWebhook");
@@ -85,4 +93,6 @@ namespace UmbracoProject.Controllers
       return Ok(new { ok = true });
     }
   }
+
+
 }
