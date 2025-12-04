@@ -4,7 +4,7 @@
 @{
     Layout = null;
     IPublishedContent root = Model.Root();
-    string companyName = root.Value<string>("companyName");
+    string companyName = root.Value<string>("Nick:Powered By CI/CD");
     if (companyName == "") { companyName = "placeholder"; };
     var colorGradient1 = root.Value("colorSettingsGradientStart");
     var colorGradient2 = root.Value("colorSettingsGradientEnd");
